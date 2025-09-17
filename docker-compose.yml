@@ -8,12 +8,9 @@ services:
     container_name: client
     ports:
       - "8080:8080"
-    volumes:
-      - ./client:/usr/src/app # mount host code
-      - /usr/src/app/node_modules # prevent overwriting node_modules
     networks:
       - app-network
-    command: ["npm", "run", "dev"]
+    command: [ "npm", "run", "dev" ]
     develop:
       watch:
         - action: sync
