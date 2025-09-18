@@ -17,6 +17,7 @@ const Summary = props => {
   } = props;
 
   const getRatingPercentage = value => {
+    if (totalSummary === 0) return 0;
     return parseFloat(percentage(value, totalSummary).toFixed(2));
   };
 
@@ -50,23 +51,21 @@ const Summary = props => {
         ratingSummary.map((r, obj) => (
           <div key={obj} className='d-flex align-items-center mb-2'>
             <div className='left'>
-              <span>{parseInt(Object.keys(r)[0])} star</span>
+              <span>{r._id} star</span>
             </div>
             <div className='middle'>
               <div className='bar-container'>
                 <div
-                  className={`bar-${parseInt(Object.keys(r)[0])}`}
+                  className={`bar-${r._id}`}
                   style={{
-                    width: `${getRatingPercentage(
-                      parseInt(r[Object.keys(r)[0]])
-                    )}%`
+                    width: `${getRatingPercentage(r.total)}%`
                   }}
                 ></div>
               </div>
             </div>
             <div className='ml-2 right'>
               <span className='fw-medium'>
-                {getRatingPercentage(parseInt(r[Object.keys(r)[0]]))}%
+                {getRatingPercentage(r.total)}%
               </span>
             </div>
           </div>

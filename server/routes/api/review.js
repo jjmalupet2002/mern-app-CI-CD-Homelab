@@ -87,8 +87,32 @@ router.get('/:slug', async (req, res) => {
       })
       .sort('-created');
 
+    const ratingSummary = await Review.aggregate([
+      {
+        $match: {
+          product: productDoc._id,
+          status: REVIEW_STATUS.Approved
+        }
+      },
+      {
+        $group: {
+          _id: '$rating',
+          total: { $sum: 1 }
+        }
+      }
+    ]);
+
+    const totalRatings = reviews.length;
+    const totalSummary = ratingSummary.reduce((acc, item) => acc + item.total, 0);
+
     res.status(200).json({
-      reviews
+      reviews,
+      reviewsSummary: {
+        ratingSummary,
+        totalRatings,
+        totalReviews: reviews.length,
+        totalSummary
+      }
     });
   } catch (error) {
     res.status(400).json({

@@ -14,6 +14,8 @@ import {
   ADD_REVIEW,
   REMOVE_REVIEW,
   FETCH_PRODUCT_REVIEWS,
+  FETCH_PRODUCT_REVIEWS_SUCCESS,
+  FETCH_PRODUCT_REVIEWS_FAILURE,
   REVIEW_CHANGE,
   RESET_REVIEW,
   SET_REVIEW_FORM_ERRORS,
@@ -113,24 +115,14 @@ export const deleteReview = id => {
 export const fetchProductReviews = slug => {
   return async (dispatch, getState) => {
     try {
+      dispatch({ type: FETCH_PRODUCT_REVIEWS });
       const response = await axios.get(`${API_URL}/review/${slug}`);
-
-      const { ratingSummary, totalRatings, totalReviews, totalSummary } =
-        getProductReviewsSummary(response.data.reviews);
-
       dispatch({
-        type: FETCH_PRODUCT_REVIEWS,
-        payload: {
-          reviews: response.data.reviews,
-          reviewsSummary: {
-            ratingSummary,
-            totalRatings,
-            totalReviews,
-            totalSummary
-          }
-        }
+        type: FETCH_PRODUCT_REVIEWS_SUCCESS,
+        payload: response.data
       });
     } catch (error) {
+      dispatch({ type: FETCH_PRODUCT_REVIEWS_FAILURE });
       handleError(error, dispatch);
     }
   };
@@ -196,50 +188,4 @@ export const addProductReview = () => {
       handleError(error, dispatch);
     }
   };
-};
-
-export const getProductReviewsSummary = reviews => {
-  let ratingSummary = [{ 5: 0 }, { 4: 0 }, { 3: 0 }, { 2: 0 }, { 1: 0 }];
-  let totalRatings = 0;
-  let totalReviews = 0;
-  let totalSummary = 0;
-
-  if (reviews.length > 0) {
-    reviews.map((item, i) => {
-      totalRatings += item.rating;
-      totalReviews += 1;
-
-      switch (Math.round(item.rating)) {
-        case 5:
-          ratingSummary[0][5] += 1;
-          totalSummary += 1;
-          break;
-        case 4:
-          ratingSummary[1][4] += 1;
-          totalSummary += 1;
-
-          break;
-        case 3:
-          ratingSummary[2][3] += 1;
-          totalSummary += 1;
-
-          break;
-        case 2:
-          ratingSummary[3][2] += 1;
-          totalSummary += 1;
-
-          break;
-        case 1:
-          ratingSummary[4][1] += 1;
-          totalSummary += 1;
-
-          break;
-        default:
-          0;
-          break;
-      }
-    });
-  }
-
-  return { ratingSummary, totalRatings, totalReviews, totalSummary };
 };

@@ -254,6 +254,7 @@ router.get(
   role.check(ROLES.Admin, ROLES.Merchant),
   async (req, res) => {
     try {
+      console.log('Docker watch is working! Change detected in product.js');
       let products = [];
 
       if (req.user.merchant) {

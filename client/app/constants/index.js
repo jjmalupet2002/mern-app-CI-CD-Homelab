@@ -11,6 +11,10 @@ export const ROLES = {
   Merchant: 'ROLE MERCHANT'
 };
 
+export const FETCH_PRODUCT_REVIEWS = 'FETCH_PRODUCT_REVIEWS';
+export const FETCH_PRODUCT_REVIEWS_SUCCESS = 'FETCH_PRODUCT_REVIEWS_SUCCESS';
+export const FETCH_PRODUCT_REVIEWS_FAILURE = 'FETCH_PRODUCT_REVIEWS_FAILURE';
+
 export const CART_ITEMS = 'cart_items';
 export const CART_TOTAL = 'cart_total';
 export const CART_ID = 'cart_id';
