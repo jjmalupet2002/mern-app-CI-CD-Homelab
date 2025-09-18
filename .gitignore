@@ -17,5 +17,5 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log* 
 
-# Example .gitignore content
-.env
+# Example .gitignore for .env file, it's ok to include this because it only has default keys
+# .env
